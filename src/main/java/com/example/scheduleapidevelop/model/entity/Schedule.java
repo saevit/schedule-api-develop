@@ -1,4 +1,4 @@
-package com.example.scheduleapidevelop.entity;
+package com.example.scheduleapidevelop.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -25,4 +25,17 @@ public class Schedule extends BaseEntity{
 
     @Column(columnDefinition = "longtext")
     private String content;
+
+    public Schedule() {};
+
+    public Schedule(String user, String title, String content){
+        this.user = user;
+        this.title = title;
+        this.content = content;
+    }
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }
