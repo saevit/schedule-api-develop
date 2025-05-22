@@ -10,12 +10,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ScheduleResponseDto {
 
-    private Long id;
-    private String user;
-    private String title;
-    private String content;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private final Long id;
+    private final String user;
+    private final String title;
+    private final String content;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime updatedAt;
 
     public static ScheduleResponseDto toDto(Schedule schedule) {
         return new ScheduleResponseDto( schedule.getId(),
