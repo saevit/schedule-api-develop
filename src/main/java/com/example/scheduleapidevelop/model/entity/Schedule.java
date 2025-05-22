@@ -17,8 +17,9 @@ public class Schedule extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(nullable = false)
     private String title;
@@ -28,7 +29,7 @@ public class Schedule extends BaseEntity{
 
     public Schedule() {};
 
-    public Schedule(String user, String title, String content){
+    public Schedule(User user, String title, String content){
         this.user = user;
         this.title = title;
         this.content = content;

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class ScheduleResponseDto {
 
     private final Long id;
-    private final String user;
+    private final String name;
     private final String title;
     private final String content;
     private final LocalDateTime createdAt;
@@ -19,7 +19,7 @@ public class ScheduleResponseDto {
 
     public static ScheduleResponseDto toDto(Schedule schedule) {
         return new ScheduleResponseDto( schedule.getId(),
-                                        schedule.getUser(),
+                                        schedule.getUser().getName(),
                                         schedule.getTitle(),
                                         schedule.getContent(),
                                         schedule.getCreatedAt(),
