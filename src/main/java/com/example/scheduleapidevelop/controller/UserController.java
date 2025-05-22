@@ -14,8 +14,8 @@ public class UserController {
 
     private final UserService userService;
 
-    // 유저 등록
-    @PostMapping
+    // 유저 등록 (회원가입)
+    @PostMapping("/signup")
     public ResponseEntity<UserResponseDto> save(@RequestBody UserSignUpRequestDto requestDto) {
 
         return new ResponseEntity<>(userService.signUp(requestDto), HttpStatus.CREATED);
