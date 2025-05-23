@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class ScheduleUpdateRequestDto {
+public class ScheduleRequestDto {
 
     private final String title;
     private final String content;

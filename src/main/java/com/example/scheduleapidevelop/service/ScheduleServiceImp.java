@@ -1,8 +1,7 @@
 package com.example.scheduleapidevelop.service;
 
-import com.example.scheduleapidevelop.model.dto.ScheduleCreateRequestDto;
+import com.example.scheduleapidevelop.model.dto.ScheduleRequestDto;
 import com.example.scheduleapidevelop.model.dto.ScheduleResponseDto;
-import com.example.scheduleapidevelop.model.dto.ScheduleUpdateRequestDto;
 import com.example.scheduleapidevelop.model.entity.Schedule;
 import com.example.scheduleapidevelop.model.entity.User;
 import com.example.scheduleapidevelop.repository.ScheduleRepository;
@@ -23,9 +22,9 @@ public class ScheduleServiceImp implements ScheduleService {
     // 일정 생성
     @Transactional
     @Override
-    public ScheduleResponseDto save(ScheduleCreateRequestDto requestDto) {
+    public ScheduleResponseDto save(Long userId, ScheduleRequestDto requestDto) {
 
-        User finduser = userRepository.findByIdOrElseThrow(requestDto.getUserId());
+        User finduser = userRepository.findByIdOrElseThrow(userId);
 
         Schedule schedule = new Schedule( finduser,
                                           requestDto.getTitle(),
@@ -52,7 +51,7 @@ public class ScheduleServiceImp implements ScheduleService {
     // 일정 수정
     @Transactional
     @Override
-    public ScheduleResponseDto update(Long id, ScheduleUpdateRequestDto requestDto) {
+    public ScheduleResponseDto update(Long id, ScheduleRequestDto requestDto) {
         // 존재하는 일정 불러오기
         Schedule findSchedule = scheduleRepository.findByIdOrElseThrow(id);
 

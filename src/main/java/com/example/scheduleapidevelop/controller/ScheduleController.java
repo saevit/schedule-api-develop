@@ -1,9 +1,12 @@
 package com.example.scheduleapidevelop.controller;
 
-import com.example.scheduleapidevelop.model.dto.ScheduleCreateRequestDto;
+import com.example.scheduleapidevelop.common.Const;
+import com.example.scheduleapidevelop.model.dto.ScheduleRequestDto;
 import com.example.scheduleapidevelop.model.dto.ScheduleResponseDto;
-import com.example.scheduleapidevelop.model.dto.ScheduleUpdateRequestDto;
+import com.example.scheduleapidevelop.model.dto.UserResponseDto;
 import com.example.scheduleapidevelop.service.ScheduleService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +23,15 @@ public class ScheduleController {
 
     // 일정 저장
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> save(@RequestBody ScheduleCreateRequestDto requestDto) {
+    public ResponseEntity<ScheduleResponseDto> save(@RequestBody ScheduleRequestDto requestDto,
+                                                    HttpServletRequest httpRequest) {
 
-        return new ResponseEntity<>(scheduleService.save(requestDto), HttpStatus.CREATED);
+        // 세션으로부터 유저 id 받아오기
+        HttpSession session = httpRequest.getSession(false);
+        Object sessionAttribute = session.getAttribute(Const.LOGIN_USER);
+        Long sessionUserId = ((UserResponseDto) sessionAttribute).getId();
+
+        return new ResponseEntity<>(scheduleService.save(sessionUserId, requestDto), HttpStatus.CREATED);
     }
 
     // 전체 일정 조회
@@ -42,7 +51,7 @@ public class ScheduleController {
     // 일정 수정
     @PutMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> update(@PathVariable Long id,
-                                                      @RequestBody ScheduleUpdateRequestDto requestDto) {
+                                                      @RequestBody ScheduleRequestDto requestDto) {
 
         return new ResponseEntity<>(scheduleService.update(id, requestDto), HttpStatus.OK);
     }
