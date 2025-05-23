@@ -1,7 +1,10 @@
 package com.example.scheduleapidevelop.controller;
 
+import com.example.scheduleapidevelop.common.Const;
 import com.example.scheduleapidevelop.model.dto.*;
 import com.example.scheduleapidevelop.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +19,28 @@ public class UserController {
 
     // 유저 등록 (회원가입)
     @PostMapping("/signup")
-    public ResponseEntity<UserResponseDto> save(@RequestBody UserSignUpRequestDto requestDto) {
+    public ResponseEntity<UserResponseDto> signUp(@RequestBody UserSignUpRequestDto requestDto) {
 
         return new ResponseEntity<>(userService.signUp(requestDto), HttpStatus.CREATED);
+    }
+
+    // 로그인
+    @PostMapping("/login")
+    public ResponseEntity<UserResponseDto> login(@RequestBody UserLoginRequestDto requestDto,
+                                                 HttpServletRequest httprequest) {
+
+        // 로그인
+        UserResponseDto loginUser = userService.login(requestDto);
+
+        // 로그인 성공시 로직
+        // Session 반환 및 생성
+        HttpSession session = httprequest.getSession();
+
+        // Session에 로그인 회원 정보를 저장
+        session.setAttribute(Const.LOGIN_USER, loginUser);
+
+        // 로그인 성공시 리다이렉트
+        return new ResponseEntity<>(loginUser, HttpStatus.OK);
     }
 
     // 유저 조회

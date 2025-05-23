@@ -1,9 +1,6 @@
 package com.example.scheduleapidevelop.service;
 
-import com.example.scheduleapidevelop.model.dto.UserDeleteRequestDto;
-import com.example.scheduleapidevelop.model.dto.UserSignUpRequestDto;
-import com.example.scheduleapidevelop.model.dto.UserUpdatePasswordRequestDto;
-import com.example.scheduleapidevelop.model.dto.UserResponseDto;
+import com.example.scheduleapidevelop.model.dto.*;
 import com.example.scheduleapidevelop.model.entity.User;
 import com.example.scheduleapidevelop.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -18,12 +15,23 @@ public class UserServiceImp implements UserService{
 
     private final UserRepository userRepository;
 
-    // 유저 등록
+    // 유저 등록 (회원가입)
     @Override
     public UserResponseDto signUp(UserSignUpRequestDto requestDto) {
         User user = new User(requestDto.getName(),requestDto.getEmail(), requestDto.getPassword());
 
         return UserResponseDto.toDto(userRepository.save(user));
+    }
+
+    // 로그인
+    @Override
+    public UserResponseDto login(UserLoginRequestDto requestDto) {
+
+        User findUser = userRepository.findByEmailAndPassword(requestDto.getEmail(),
+                                                              requestDto.getPassword())
+                                      .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "이메일 또는 비밀번호가 일치하지 않습니다."));
+
+        return UserResponseDto.toDto(findUser);
     }
 
     // 유저 조회

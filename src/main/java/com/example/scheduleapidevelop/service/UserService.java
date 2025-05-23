@@ -1,13 +1,12 @@
 package com.example.scheduleapidevelop.service;
 
-import com.example.scheduleapidevelop.model.dto.UserDeleteRequestDto;
-import com.example.scheduleapidevelop.model.dto.UserSignUpRequestDto;
-import com.example.scheduleapidevelop.model.dto.UserUpdatePasswordRequestDto;
-import com.example.scheduleapidevelop.model.dto.UserResponseDto;
+import com.example.scheduleapidevelop.model.dto.*;
 
 public interface UserService {
 
     UserResponseDto signUp(UserSignUpRequestDto requestDto);
+
+    UserResponseDto login(UserLoginRequestDto requestDto);
 
     UserResponseDto findById(Long id);
 
