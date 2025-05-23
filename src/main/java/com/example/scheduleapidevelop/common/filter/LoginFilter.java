@@ -30,9 +30,6 @@ public class LoginFilter implements Filter {
             // 세션 가져오기 (false: 이때 세션이 존재하지 않아도 새로 생성 X - 즉, null 반환)
             HttpSession session = httpRequest.getSession(false);
 
-            System.out.println("세션: " + session);
-            System.out.println("JSESSIONID: " + httpRequest.getHeader("Cookie"));
-
             // 로그인하지 않은 사용자인 경우
             if (session == null || session.getAttribute(Const.LOGIN_USER) == null) {
                 httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

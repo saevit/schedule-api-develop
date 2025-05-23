@@ -2,6 +2,7 @@ package com.example.scheduleapidevelop.service;
 
 import com.example.scheduleapidevelop.model.dto.*;
 import com.example.scheduleapidevelop.model.entity.User;
+import com.example.scheduleapidevelop.repository.ScheduleRepository;
 import com.example.scheduleapidevelop.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +15,10 @@ import org.springframework.web.server.ResponseStatusException;
 public class UserServiceImp implements UserService{
 
     private final UserRepository userRepository;
+    private final ScheduleRepository scheduleRepository;
 
     // 유저 등록 (회원가입)
+    @Transactional
     @Override
     public UserResponseDto signUp(UserSignUpRequestDto requestDto) {
         User user = new User(requestDto.getName(),requestDto.getEmail(), requestDto.getPassword());
@@ -52,11 +55,13 @@ public class UserServiceImp implements UserService{
     }
 
     // 유저 삭제
+    @Transactional
     @Override
     public void delete(Long id, UserDeleteRequestDto requestDto) {
 
         User findUser = findAndValiatePassword(id, requestDto.getPassword());
 
+        scheduleRepository.deleteByUser(findUser);
         userRepository.delete(findUser);
     }
 

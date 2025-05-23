@@ -27,20 +27,33 @@ public class UserController {
     // 로그인
     @PostMapping("/login")
     public ResponseEntity<UserResponseDto> login(@RequestBody UserLoginRequestDto requestDto,
-                                                 HttpServletRequest httprequest) {
+                                                 HttpServletRequest httpRequest) {
 
         // 로그인
         UserResponseDto loginUser = userService.login(requestDto);
 
         // 로그인 성공시 로직
         // Session 반환 및 생성
-        HttpSession session = httprequest.getSession();
+        HttpSession session = httpRequest.getSession();
 
         // Session에 로그인 회원 정보를 저장
         session.setAttribute(Const.LOGIN_USER, loginUser);
 
         // 로그인 성공시 리다이렉트
         return new ResponseEntity<>(loginUser, HttpStatus.OK);
+    }
+
+    // 로그아웃
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(HttpServletRequest httpRequest) {
+
+        HttpSession session = httpRequest.getSession(false);
+
+        if(session != null) {
+            session.invalidate();
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // 유저 조회
@@ -63,9 +76,17 @@ public class UserController {
     // 유저 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id,
-                                       @RequestBody UserDeleteRequestDto requestDto) {
+                                       @RequestBody UserDeleteRequestDto requestDto,
+                                       HttpServletRequest httpRequest) {
 
         userService.delete(id, requestDto);
+
+        // 로그아웃 처리
+        HttpSession session = httpRequest.getSession(false);
+
+        if(session != null) {
+            session.invalidate();
+        }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

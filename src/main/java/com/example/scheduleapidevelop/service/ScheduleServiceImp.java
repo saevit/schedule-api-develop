@@ -21,6 +21,7 @@ public class ScheduleServiceImp implements ScheduleService {
     private final UserRepository userRepository;
 
     // 일정 생성
+    @Transactional
     @Override
     public ScheduleResponseDto save(ScheduleCreateRequestDto requestDto) {
 
@@ -62,6 +63,7 @@ public class ScheduleServiceImp implements ScheduleService {
     }
 
     // 일정 삭제
+    @Transactional
     @Override
     public void delete(Long id) {
         // 존재하는 일정 불러오기
