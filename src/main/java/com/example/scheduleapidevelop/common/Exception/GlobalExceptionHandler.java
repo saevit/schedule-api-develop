@@ -7,21 +7,47 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> MethodArgumentNotValidHandler(MethodArgumentNotValidException e){
+    public ResponseEntity<ExceptionDto> MethodArgumentNotValidHandler(MethodArgumentNotValidException e){
 
-        Map<String, String> errors = new HashMap<>();
+        StringBuilder stringBuilder = new StringBuilder();
 
         for (FieldError error : e.getBindingResult().getFieldErrors()) {
-            errors.put(error.getField(), error.getDefaultMessage());
+            stringBuilder.append(error.getField());
+            stringBuilder.append(": ");
+            stringBuilder.append(error.getDefaultMessage());
+            stringBuilder.append("; ");
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        ExceptionDto exceptionDto = new ExceptionDto(400, stringBuilder.toString());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionDto);
+    }
+
+    @ExceptionHandler(NotFoundIdException.class)
+    public ResponseEntity<ExceptionDto> NotFoundIdHandler(NotFoundIdException e) {
+
+        ExceptionDto exceptionDto = new ExceptionDto(404, e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionDto);
+    }
+
+    @ExceptionHandler(WrongPasswordException.class)
+    public ResponseEntity<ExceptionDto> WrongPasswordHandler(WrongPasswordException e) {
+
+        ExceptionDto exceptionDto = new ExceptionDto(401, e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exceptionDto);
+    }
+
+    @ExceptionHandler(LoginFailedException.class)
+    public ResponseEntity<ExceptionDto> LoginFailedHandler(LoginFailedException e) {
+
+        ExceptionDto exceptionDto = new ExceptionDto(401, e.getMessage());
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exceptionDto);
     }
 }

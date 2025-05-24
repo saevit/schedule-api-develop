@@ -1,5 +1,6 @@
 package com.example.scheduleapidevelop.service;
 
+import com.example.scheduleapidevelop.common.Exception.WrongPasswordException;
 import com.example.scheduleapidevelop.model.dto.*;
 import com.example.scheduleapidevelop.model.entity.User;
 import com.example.scheduleapidevelop.repository.ScheduleRepository;
@@ -70,7 +71,7 @@ public class UserServiceImp implements UserService{
         User findUser = userRepository.findByIdOrElseThrow(id);
 
         if (!findUser.getPassword().equals(password)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
+            throw new WrongPasswordException();
         }
 
         return findUser;
