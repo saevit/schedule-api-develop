@@ -5,6 +5,7 @@ import com.example.scheduleapidevelop.model.dto.*;
 import com.example.scheduleapidevelop.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +20,14 @@ public class UserController {
 
     // 유저 등록 (회원가입)
     @PostMapping("/signup")
-    public ResponseEntity<UserResponseDto> signUp(@RequestBody UserSignUpRequestDto requestDto) {
+    public ResponseEntity<UserResponseDto> signUp(@Valid @RequestBody UserSignUpRequestDto requestDto) {
 
         return new ResponseEntity<>(userService.signUp(requestDto), HttpStatus.CREATED);
     }
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<UserResponseDto> login(@RequestBody UserLoginRequestDto requestDto,
+    public ResponseEntity<UserResponseDto> login(@Valid @RequestBody UserLoginRequestDto requestDto,
                                                  HttpServletRequest httpRequest) {
 
         // 로그인
@@ -66,7 +67,7 @@ public class UserController {
     // 유저 수정 (비번 수정)
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable Long id,
-                                       @RequestBody UserUpdatePasswordRequestDto requestDto) {
+                                       @Valid @RequestBody UserUpdatePasswordRequestDto requestDto) {
 
         userService.update(id, requestDto);
 
@@ -76,7 +77,7 @@ public class UserController {
     // 유저 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id,
-                                       @RequestBody UserDeleteRequestDto requestDto,
+                                       @Valid @RequestBody UserDeleteRequestDto requestDto,
                                        HttpServletRequest httpRequest) {
 
         userService.delete(id, requestDto);

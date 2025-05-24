@@ -7,6 +7,7 @@ import com.example.scheduleapidevelop.model.dto.UserResponseDto;
 import com.example.scheduleapidevelop.service.ScheduleService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class ScheduleController {
 
     // 일정 저장
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> save(@RequestBody ScheduleRequestDto requestDto,
+    public ResponseEntity<ScheduleResponseDto> save(@Valid @RequestBody ScheduleRequestDto requestDto,
                                                     HttpServletRequest httpRequest) {
 
         // 세션으로부터 유저 id 받아오기
@@ -51,7 +52,7 @@ public class ScheduleController {
     // 일정 수정
     @PutMapping("/{id}")
     public ResponseEntity<ScheduleResponseDto> update(@PathVariable Long id,
-                                                      @RequestBody ScheduleRequestDto requestDto) {
+                                                      @Valid @RequestBody ScheduleRequestDto requestDto) {
 
         return new ResponseEntity<>(scheduleService.update(id, requestDto), HttpStatus.OK);
     }
