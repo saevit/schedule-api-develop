@@ -5,13 +5,14 @@ import lombok.Getter;
 
 /**
  * 일정 테이블
+ *
  * 필드     : 작성 유저명, 할일 제목, 할일 내용
- * 상속 필드 : 작성일, 수정일
+ * 상속 필드 : 작성일(자동 생성), 수정일(자동 생성 및 자동 업데이트)
  */
 @Getter
 @Entity
 @Table(name = "schedules")
-public class Schedule extends BaseEntity{
+public class Schedule extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

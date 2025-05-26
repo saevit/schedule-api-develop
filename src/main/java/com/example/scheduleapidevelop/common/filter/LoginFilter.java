@@ -9,6 +9,9 @@ import org.springframework.util.PatternMatchUtils;
 
 import java.io.IOException;
 
+/**
+ * 로그인 된 사용자인지 확인하는 필터
+ */
 public class LoginFilter implements Filter {
 
     // 인증을 하지 않아도될 URL Path 배열
@@ -30,7 +33,7 @@ public class LoginFilter implements Filter {
             // 세션 가져오기 (false: 이때 세션이 존재하지 않아도 새로 생성 X - 즉, null 반환)
             HttpSession session = httpRequest.getSession(false);
 
-            // 로그인하지 않은 사용자인 경우
+            // 로그인하지 않은 사용자인 경우 예외 처리
             if (session == null || session.getAttribute(Const.LOGIN_USER) == null) {
                 httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 httpResponse.setContentType("application/json");
