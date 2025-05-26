@@ -13,7 +13,8 @@ https://documenter.getpostman.com/view/44682451/2sB2qcCgVz
 
 
 ## ERD
-- 일정
+###일정
+
 | 필드명     | 타입           | 제약 조건                    | 설명                              |
 |------------|----------------|-------------------------------|-----------------------------------|
 | id         | Long           | PK, Auto Increment            | 기본 키                           |
@@ -23,7 +24,8 @@ https://documenter.getpostman.com/view/44682451/2sB2qcCgVz
 | createdAt  | LocalDateTime  | NOT NULL, updatable = false   | 생성 시간 (`@CreatedDate`)        |
 | updatedAt  | LocalDateTime  |                               | 수정 시간 (`@LastModifiedDate`)   |
 
-- 유저
+### 유저
+
 | 필드명     | 타입           | 제약 조건                    | 설명                          |
 |------------|----------------|-----------------------------|---------------------------------|
 | id         | Long           | PK, Auto Increment          | 기본 키                         |
